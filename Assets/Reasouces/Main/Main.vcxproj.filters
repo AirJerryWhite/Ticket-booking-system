@@ -24,6 +24,12 @@
     <ClInclude Include="CityList_function.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="transmform_function.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack_function.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp">

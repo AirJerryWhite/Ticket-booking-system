@@ -8,4 +8,5 @@ int main()
 	head=CityList_create(head);
 	CityList_refresh(head);
 	CityList_display(head);
+	CityList_save(head);
 }

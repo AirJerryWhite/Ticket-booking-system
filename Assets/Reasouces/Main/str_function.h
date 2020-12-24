@@ -25,7 +25,7 @@ void str_copy(string* S,string T)
 	else
 		printf("Targe isn't empty.");
 }
-void str_show(string S)
+void str_display(string S)
 {
 		printf("%s", S.str);
 }
@@ -46,23 +46,5 @@ int str_compare(string S, string T)
 	}
 	else flag = 0;
 	return flag;
-}
-void char2string(string* S, char* str)
-{
-	int length=0;
-	for (int i = 0; i < 100; i++)
-	{
-		if (str[i] == '\n' || str[i] == '\0')
-		{
-			S->str[i] = '\0';
-			break;
-		}
-		else
-		{
-			S->str[i] = str[i];
-			length++;
-		}
-	}
-	S->length = length;
 }
 #pragma once
