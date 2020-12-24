@@ -28,7 +28,6 @@ void str_copy(string* S,string T)
 void str_show(string S)
 {
 		printf("%s", S.str);
-		printf("\n");
 }
 int str_compare(string S, string T)
 {
@@ -47,5 +46,13 @@ int str_compare(string S, string T)
 	}
 	else flag = 0;
 	return flag;
+}
+void char2string(string* S, char* str)
+{
+	for (int i = 0; i < 100; i++)
+	{
+		if (str[i] == '\n' || str[i] == '\0') break;
+		else S->str[i] = str[i];
+	}
 }
 #pragma once

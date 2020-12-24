@@ -1,9 +1,11 @@
 #include "struct.h"
 #include "str_function.h"
+#include "CityList_function.h"
 int main()
 {
-	string a,b;
-	str_create(&a);
-	str_copy(&b, a);
-	str_show(b);
+	CityList* head;
+	head = (CityList*)malloc(sizeof(CityList));
+	head=CityList_create(head);
+	CityList_refresh(head);
+	CityList_display(head);
 }
