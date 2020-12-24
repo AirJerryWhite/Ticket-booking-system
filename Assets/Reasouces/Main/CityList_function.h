@@ -55,6 +55,22 @@ CityList* CityList_create(CityList* head)
 	fclose(fp);
 	return head;
 }
+CityList* CityList_add(CityList* head, string city)
+{
+	if (CityList_find(head, city) == -1)
+	{
+		CityList* p, * add;
+		p = head;
+		while (p->next == NULL)
+		{
+			p = p->next;
+		}
+		str_copy(&add->city, city);
+		add->No = p->No++;
+		p->next = add;
+	}
+	return head;
+}
 void CityList_display(CityList* head)
 {
 	CityList* p;
@@ -69,17 +85,19 @@ void CityList_display(CityList* head)
 }
 int CityList_find(CityList* head, string city)
 {
+	int no=-1;
 	CityList* p;
 	p = head;
 	do
 	{
 		if (str_compare(p->city, city))
 		{
-			return p->No;
+			no=p->No;
 			break;
 		}
 		else p = p->next;
 	} while (p);
+	return no;
 }
 void CityList_save(CityList* head)
 {
