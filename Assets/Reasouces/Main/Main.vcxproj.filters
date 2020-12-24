@@ -18,7 +18,7 @@
     <ClInclude Include="struct.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="function.h">
+    <ClInclude Include="str_function.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

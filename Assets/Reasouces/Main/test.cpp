@@ -1,11 +1,9 @@
 #include "struct.h"
-#include "function.h"
+#include "str_function.h"
 int main()
 {
-	int flag;
-	string s, t;
-	strcreate(&s);
-	strcreate(&t);
-	flag=strcompare(s, t);
-	printf("%d", flag);
+	string a,b;
+	str_create(&a);
+	str_copy(&b, a);
+	str_show(b);
 }

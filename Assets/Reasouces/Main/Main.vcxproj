@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="function.h" />
+    <ClInclude Include="str_function.h" />
     <ClInclude Include="struct.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <string.h>
+
 typedef struct string
 {
 	char str[100]={};
-	int length;
+	int length=0;
 }string;
-void strcreate(string* S);
-int strcompare(string S, string T);
-void strshow(string S);	//for test
+void str_create(string* S);
+void str_copy(string* S,string T);
+int str_compare(string S, string T);
+void str_show(string S);	//for test
 
-typedef string city;
-typedef struct city_list
+typedef struct CityList
 {
-	city info[10];
-	struct city_list* next;
-}city_list;
-void* find(city_list* head, city* city);
+	string city;
+	struct CityList* next;
+}CityList;
+CityList* CityList_init();
+void* find(CityList* head, string city);
 #pragma once
