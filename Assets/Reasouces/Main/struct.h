@@ -19,7 +19,7 @@ typedef struct CityList
 	string city;
 	struct CityList* next=NULL;
 }CityList;
-void CityList_init();
+CityList* CityList_init();
 void CityList_refresh(CityList* head);
 CityList* CityList_create(CityList* head);
 void CityList_display(CityList* head);

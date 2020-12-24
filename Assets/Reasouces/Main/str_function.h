@@ -49,10 +49,20 @@ int str_compare(string S, string T)
 }
 void char2string(string* S, char* str)
 {
+	int length=0;
 	for (int i = 0; i < 100; i++)
 	{
-		if (str[i] == '\n' || str[i] == '\0') break;
-		else S->str[i] = str[i];
+		if (str[i] == '\n' || str[i] == '\0')
+		{
+			S->str[i] = '\0';
+			break;
+		}
+		else
+		{
+			S->str[i] = str[i];
+			length++;
+		}
 	}
+	S->length = length;
 }
 #pragma once
