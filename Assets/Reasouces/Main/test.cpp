@@ -2,7 +2,10 @@
 #include "function.h"
 int main()
 {
-	string s;
+	int flag;
+	string s, t;
 	strcreate(&s);
-	strshow(s);
+	strcreate(&t);
+	flag=strcompare(s, t);
+	printf("%d", flag);
 }
