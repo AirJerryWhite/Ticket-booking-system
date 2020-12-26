@@ -9,6 +9,11 @@ CityList* CityList_init()
 	head->next = NULL;
 	return head;
 }
+void CityList_malloc(CityList* p)
+{
+	p = (CityList*)malloc(sizeof(CityList));
+	p->next;
+}
 void CityList_refresh(CityList* head)
 {
 	CityList* p;
@@ -25,7 +30,7 @@ CityList* CityList_create(CityList* head)
 {
 	string a;
 	CityList* p, * add;
-	p = (CityList*)malloc(sizeof(CityList));
+	CityList_malloc(p);
 	char str[100];
 	int line=0;
 	FILE* fp;
@@ -36,8 +41,7 @@ CityList* CityList_create(CityList* head)
 		line=char2int(str);
 		for (int i = 0; i < line; i++)
 		{
-			add=(CityList*)malloc(sizeof(CityList));
-			add->next = NULL;
+			CityList_malloc(add);
 			fgets(str, 20, fp);
 			char2string(&add->city, str);
 			if (i == 0)
@@ -60,6 +64,8 @@ CityList* CityList_add(CityList* head, string city)
 	if (CityList_find(head, city) == -1)
 	{
 		CityList* p, * add;
+		add = (CityList*)malloc(sizeof(CityList));
+		add->next = NULL;
 		p = head;
 		while (p->next == NULL)
 		{

@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CityList_function.h" />
+    <ClInclude Include="Dest_function.h" />
+    <ClInclude Include="Route-function.h" />
     <ClInclude Include="Stack_function.h" />
     <ClInclude Include="str_function.h" />
     <ClInclude Include="struct.h" />
