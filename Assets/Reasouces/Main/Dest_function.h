@@ -6,6 +6,7 @@ DestinationList* Dest_init()
 {
 	DestinationList* p;
 	p = (DestinationList*)malloc(sizeof(DestinationList));
+	p->city.length = 0;
 	p->next = NULL;
 	return p;
 }
@@ -50,11 +51,19 @@ DestinationList* Dest_add(DestinationList* head, string origin, string city, str
 		add->seat = seat;
 		add->next = NULL;
 	}
-	while (p->next != NULL)
+	if (head->city.length == 0)
 	{
-		p = p->next;
+		head = add;
+		p = head;
 	}
-	p->next = add;
+	else
+	{
+		while (p->next != NULL)
+		{
+			p = p->next;
+		}
+		p->next = add;
+	}
 	return head;
 }
 DestinationList* Dest_remove(DestinationList* head, string FlightNumber)

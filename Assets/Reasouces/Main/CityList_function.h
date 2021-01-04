@@ -2,10 +2,17 @@
 #include "str_function.h"
 #include "transmform_function.h"
 
+void CityList_FileInit()
+{
+	FILE* fp;
+	fopen_s(&fp, "CityList.dat", "w");
+	fputc('0', fp);
+}
 CityList* CityList_init()
 {
 	CityList* head;
 	head = (CityList*)malloc(sizeof(CityList));
+	head->city.length = 0;
 	head->next = NULL;
 	return head;
 }
@@ -35,21 +42,24 @@ CityList* CityList_create(CityList* head)
 	{
 		fgets(str, 5, fp);
 		line=char2int(str);
-		for (int i = 0; i < line; i++)
+		if (line != 0)
 		{
-			add = (CityList*)malloc(sizeof(CityList));
-			add->next = NULL;
-			fgets(str, 20, fp);
-			char2string(&add->city, str);
-			if (i == 0)
+			for (int i = 0; i < line; i++)
 			{
-				head = add;
-				p = head;
-			}
-			else
-			{
-				p->next = add;
-				p = add;
+				add = (CityList*)malloc(sizeof(CityList));
+				add->next = NULL;
+				fgets(str, 20, fp);
+				char2string(&add->city, str);
+				if (i == 0)
+				{
+					head = add;
+					p = head;
+				}
+				else
+				{
+					p->next = add;
+					p = add;
+				}
 			}
 		}
 	}
@@ -64,13 +74,21 @@ CityList* CityList_add(CityList* head, string city)
 		add = (CityList*)malloc(sizeof(CityList));
 		add->next = NULL;
 		p = head;
-		while (p->next != NULL)
-		{
-			p = p->next;
-		}
 		str_copy(&add->city, city);
-		add->No = p->No++;
-		p->next = add;
+		if (head->city.length == 0)
+		{
+			head = add;
+			p = head;
+		}
+		else
+		{
+			while (p->next != NULL)
+			{
+				p = p->next;
+			}
+			add->No = p->No++;
+			p->next = add;
+		}
 	}
 	return head;
 }

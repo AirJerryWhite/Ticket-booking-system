@@ -53,7 +53,7 @@ void int2char(int length, char* str)
 int char2int(char* str)
 {
 	int len=0;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		if (str[i] == '\n' || str[i] == '\0') break;
 		else

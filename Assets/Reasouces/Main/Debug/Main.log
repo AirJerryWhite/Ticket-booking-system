@@ -1,2 +1,4 @@
 ﻿  test.cpp
+E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\test.cpp(9,13): warning C4101: “seat”: 未引用的局部变量
+E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\test.cpp(9,6): warning C4101: “money”: 未引用的局部变量
   Main.vcxproj -> E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Debug\Main.exe
