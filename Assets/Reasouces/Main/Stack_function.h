@@ -14,7 +14,7 @@ void stack_push(stack* S,int data)
 int stack_pull(stack* S)
 {
 	int data;
-	data = S->stack[S->head--];
+	data = S->stack[S->head-1];
 	S->head--;
 	return data;
 }

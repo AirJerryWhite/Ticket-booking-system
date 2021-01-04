@@ -1,4 +1,10 @@
 #include "struct.h"
+string str_init()
+{
+	string p;
+	p.length = 0;
+	return p;
+}
 void str_create(string* S)
 {
 	char input;
@@ -14,16 +20,11 @@ void str_create(string* S)
 }
 void str_copy(string* S,string T)
 {
-	if (S->length == 0)
-	{
 		S->length = T.length;
 		for (int i = 0; i <= T.length; i++)
 		{
 			S->str[i] = T.str[i];
 		}
-	}
-	else
-		printf("Targe isn't empty.");
 }
 void str_display(string S)
 {

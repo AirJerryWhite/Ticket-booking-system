@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define _CRT_SECURE_NO_WARNINGS
 //=============================stack==============================//
 typedef struct stack
 {
@@ -16,6 +17,7 @@ typedef struct string
 	char str[100]={};
 	int length=0;
 }string;
+string str_init();
 void str_create(string* S);
 void str_copy(string* S,string T);
 int str_compare(string S, string T);
@@ -28,7 +30,6 @@ typedef struct CityList
 	struct CityList* next=NULL;
 }CityList;
 CityList* CityList_init();
-void CityList_malloc(CityList* p);
 void CityList_refresh(CityList* head);
 CityList* CityList_create(CityList* head);
 CityList* CityList_add(CityList* head, string city);
@@ -49,12 +50,13 @@ typedef struct DestinationList
 	struct DestinationList* next = NULL;
 }DestinationList;
 DestinationList* Dest_init();
-void Dest_malloc(DestinationList* p);
 void Dest_refrsh(DestinationList* p);
+DestinationList* Dest_create(DestinationList* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat);
 DestinationList* Dest_add(DestinationList* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat);
 DestinationList* Dest_remove(DestinationList* head, string FlightNumber);
 DestinationList* Dest_find_FlightNumber(DestinationList* head, string FlightNumber);
-void Dest_find_City(DestinationList* head,DestinationList* cache, string city);
+DestinationList* Dest_find_City(DestinationList* head, string city);
+void Dest_display(DestinationList* head);
 //===========================Route=============================//
 typedef struct Route
 {

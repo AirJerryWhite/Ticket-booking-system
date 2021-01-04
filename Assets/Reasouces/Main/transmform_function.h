@@ -30,24 +30,25 @@ void string2char(char* str, string* S)
 		}
 		else str[i] = S->str[i];
 	}
-
+	str[S->length] = '\0';
 }
 void int2char(int length, char* str)
 {
 	stack stack;
 	stack = stack_init();
-	int len;
+	int len,stack_len;
 	len = length;
 	do
 	{
 		stack_push(&stack, len % 10);
 		len = len / 10;
 	} while(len!=0);
-	for (int i = 0; i < (stack.head - 1); i++)
+	stack_len = stack.head;
+	for (int i = 0; i < stack_len; i++)
 	{
 		str[i] = stack_pull(&stack) + '0';
 	}
-	str[stack.head - 1] = '\0';
+	str[stack_len] = '\0';
 }
 int char2int(char* str)
 {

@@ -9,11 +9,6 @@ CityList* CityList_init()
 	head->next = NULL;
 	return head;
 }
-void CityList_malloc(CityList* p)
-{
-	p = (CityList*)malloc(sizeof(CityList));
-	p->next;
-}
 void CityList_refresh(CityList* head)
 {
 	CityList* p;
@@ -30,7 +25,8 @@ CityList* CityList_create(CityList* head)
 {
 	string a;
 	CityList* p, * add;
-	CityList_malloc(p);
+	p = (CityList*)malloc(sizeof(CityList));
+	p->next = NULL;
 	char str[100];
 	int line=0;
 	FILE* fp;
@@ -41,7 +37,8 @@ CityList* CityList_create(CityList* head)
 		line=char2int(str);
 		for (int i = 0; i < line; i++)
 		{
-			CityList_malloc(add);
+			add = (CityList*)malloc(sizeof(CityList));
+			add->next = NULL;
 			fgets(str, 20, fp);
 			char2string(&add->city, str);
 			if (i == 0)
@@ -67,7 +64,7 @@ CityList* CityList_add(CityList* head, string city)
 		add = (CityList*)malloc(sizeof(CityList));
 		add->next = NULL;
 		p = head;
-		while (p->next == NULL)
+		while (p->next != NULL)
 		{
 			p = p->next;
 		}
@@ -79,6 +76,7 @@ CityList* CityList_add(CityList* head, string city)
 }
 void CityList_display(CityList* head)
 {
+	CityList_refresh(head);
 	CityList* p;
 	p = head;
 	do
@@ -111,6 +109,7 @@ void CityList_save(CityList* head)
 	int length = 0;
 	char string[100];
 	p = head;
+	CityList_refresh(p);
 	do
 	{
 		if (p->next == NULL)
@@ -120,20 +119,24 @@ void CityList_save(CityList* head)
 		}
 		p = p->next;
 	} while (p);
-
+	length++;
 	FILE* fp;
-	fopen_s(&fp, "CityList", "w");
-	int2char(length, string);
-	fputs(string, fp);
-	fputc('\n', fp);
-	p = head;
-	for (int i=0; i < length; i++)
+	fp = NULL;
+	fopen_s(&fp, "CityList.dat", "w");
+	if (fp != NULL)
 	{
-		string2char(string, &p->city);
+		int2char(length, string);
 		fputs(string, fp);
 		fputc('\n', fp);
-		p = p->next;
+		p = head;
+		for (int i = 0; i < length; i++)
+		{
+			string2char(string, &p->city);
+			fputs(string, fp);
+			fputc('\n', fp);
+			p = p->next;
+		}
+		fclose(fp);
 	}
-	fclose(fp);
 }
 #pragma once
