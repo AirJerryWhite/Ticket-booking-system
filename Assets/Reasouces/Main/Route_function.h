@@ -7,6 +7,8 @@ Route* Route_init()
 {
 	Route* p;
 	p = (Route*)malloc(sizeof(Route));
+	p->city.length = 0;
+	p->Destination = Dest_init();
 	p->Next = NULL;
 	return p;
 }
@@ -25,11 +27,12 @@ Route* Route_create(Route* head, CityList* citylist)
 	CityList* q;
 	Route* p, * add;
 	string origin, city, FlightNumber, date, time;
-	int money, seat, line, count;
-	char str[100], cache[100];
+	int money, seat, line, count,m=0;
+	char str[105], cache[100];
 	string string;
 	string = str_init();
 	p = (Route*)malloc(sizeof(Route));
+	add = Route_init();
 	p->Next = NULL;
 	FILE* fp;
 
@@ -42,7 +45,7 @@ Route* Route_create(Route* head, CityList* citylist)
 		q = citylist;
 		do
 		{
-			Route_add(head, q->city);
+			head=Route_add_city(head, q->city);
 			q = q->next;
 		} while (p);
 		fopen_s(&fp, "Route.dat", "r");
@@ -50,84 +53,82 @@ Route* Route_create(Route* head, CityList* citylist)
 		{
 			fgets(str, 5, fp);
 			line = char2int(str);
-			for (int n = 0; n < line; n++)
+			for (int i = 0; i < line; i++)
 			{
 				count = 0;
 				fgets(str, 100, fp);
-				for (int m = 0; m < 100; m++)
+				for (int n = 0; n < 100; n++)
 				{
 					if (count == 6)	break;
 					count = 0;
-					if (str[m] != ' ')
+					if ((str[n] != ' ') && (str[n] != '\n'))
 					{
-						cache[n] = str[m];
-						n++;
+						cache[m] = str[n];
+						m++;
 					}
 					else
 					{
-						n = 0;
-						if ((str[m - 1] != ' ') && (str[m] == ' '))
+						cache[m] = '\0';
+						m = 0;
+						if (((str[n - 1] != ' ') && (str[n-1] != '\n')) && ((str[n] == ' ') || (str[n] == '\n')))
 						{
 							switch (count)
 							{
 							case(0):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&origin, string);
 								count++;
+								add = Route_init();
 								add = Route_find(head, origin);
 								if (!add)
 								{
-									Route_add(head, origin);
-									CityList_add(citylist, origin);
+									head = Route_add_city(head, origin);
+									citylist = CityList_add(citylist, origin);
 									add = Route_find(head, origin);
 								}
 								break;
 							}
 							case(1):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&city, string);
+								citylist = CityList_add(citylist, city);
 								count++;
 								break;
 							}
 							case(2):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&FlightNumber, string);
 								count++;
 								break;
 							}
 							case(3):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&date, string);
 								count++;
 								break;
 							}
 							case(4):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&time, string);
 								count++;
 								break;
 							}
 							case(5):
 							{
-								money = char2int(str);
+								money = char2int(cache);
 								count++;
 								break;
 							}
 							case(6):
 							{
-								seat = char2int(str);
+								seat = char2int(cache);
 								count++;
-								break;
-							}
-							case(7):
-							{
-								Dest_add(add->Destination, origin, city, FlightNumber, date, time, money, seat);
-								count++;
+								add->Destination = Dest_add(add->Destination, origin, city, FlightNumber, date, time, money, seat);
 								break;
 							}
 							default:
@@ -146,80 +147,77 @@ Route* Route_create(Route* head, CityList* citylist)
 		{
 			fgets(str, 5, fp);
 			line = char2int(str);
-			for (int n = 0; n < line; n++)
+			for (int i = 0; i < line; i++)
 			{
 				count = 0;
 				fgets(str, 100, fp);
-				for (int m = 0; m < 100; m++)
+				for (int n = 0; n < 100; n++)
 				{
-					if (count == 6)	break;
-					count = 0;
-					if (str[m] != ' ')
+					if (count == 7)	break;
+					if (str[n] != ' ' && str[n] != '\n')
 					{
-						cache[n] = str[m];
-						n++;
+						cache[m] = str[n];
+						m++;
 					}
 					else
 					{
-						n = 0;
-						if ((str[m - 1] != ' ') && (str[m] == ' '))
+						cache[m] = '\0';
+						m = 0;
+						if (((str[n - 1] != ' ') && (str[n - 1] != '\n')) && ((str[n] == ' ') || (str[n] == '\n')))
 						{
 							switch (count)
 							{
 							case(0):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&origin, string);
 								count++;
-								Route_add(head, origin);
-								CityList_add(citylist, origin);
+								head=Route_add_city(head, origin);
+								citylist=CityList_add(citylist, origin);
+								add = Route_init();
 								add = Route_find(head, origin);
 								break;
 							}
 							case(1):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&city, string);
+								citylist = CityList_add(citylist, city);
 								count++;
 								break;
 							}
 							case(2):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&FlightNumber, string);
 								count++;
 								break;
 							}
 							case(3):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&date, string);
 								count++;
 								break;
 							}
 							case(4):
 							{
-								char2string(&string, str);
+								char2string(&string, cache);
 								str_copy(&time, string);
 								count++;
 								break;
 							}
 							case(5):
 							{
-								money = char2int(str);
+								money = char2int(cache);
 								count++;
 								break;
 							}
 							case(6):
 							{
-								seat = char2int(str);
+								seat = char2int(cache);
 								count++;
-								break;
-							}
-							case(7):
-							{
-								Dest_add(add->Destination, origin, city, FlightNumber, date, time, money, seat);
-								count++;
+								add->Destination = Dest_add(add->Destination, origin, city, FlightNumber, date, time, money, seat);
 								break;
 							}
 							default:
@@ -233,17 +231,31 @@ Route* Route_create(Route* head, CityList* citylist)
 	}
 	fclose(fp);
 	CityList_save(citylist);
+	return head;
 }
-Route* Route_add(Route* head, string city)
+Route* Route_add_city(Route* head, string city)
 {
-	Route* p;
+	Route* p, * add;
+	add = Route_init();
+	str_copy(&add->city, city);
 	p = head;
-	do
+	while (p->Next != nullptr)
 	{
 		p = p->Next;
-	} while (p);
-	if (head->city.length == 0)	str_copy(&head->city, city);
-	else str_copy(&p->city, city);
+	}
+	if (head->city.length == 0)	head = add;
+	else
+	{
+		p->Next = add;
+		p->Next->Destination = Dest_init();
+	}
+	return head;
+}
+Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat)
+{
+	Route* p;
+	p = Route_find(head, origin);
+	Dest_add(p->Destination, origin, city, FlightNumber, date, time, money, seat);
 	return head;
 }
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat)
@@ -263,5 +275,57 @@ Route* Route_find(Route* head, string city)
 		if (str_compare(p->city, city))	return p;
 		else	p = p->Next;
 	} while (p);
+}
+void Route_save(Route* head)
+{
+	int line,Dest_line;
+	char str[105];
+	Route_refresh(head);
+	Route* p;
+	DestinationList* q;
+	p = head;
+	while (p->Next != NULL)
+	{
+		p = p->Next;
+	}
+	line = p->No+1;
+
+	FILE* fp;
+	fopen_s(&fp, "Route.dat", "w");
+	int2char(line, str);
+	fputs(str, fp);
+	fputc('\n', fp);
+	p = head;
+	for (int i = 0; i < line; i++)
+	{
+		q = p->Destination;
+		while (q)
+		{
+			string2char(str, &q->origin);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->city);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->FlightNumber);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->date);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->time);
+			fputs(str, fp);
+			fputc(' ', fp);
+			int2char(q->money, str);
+			fputs(str, fp);
+			fputc(' ', fp);
+			int2char(q->seat, str);
+			fputs(str, fp);
+			fputc('\n', fp);
+			q = q->next;
+		}
+		p = p->Next;
+	}
+	fclose(fp);
 }
 #pragma once

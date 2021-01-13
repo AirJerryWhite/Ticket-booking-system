@@ -21,16 +21,12 @@ void char2string(string* S, char* str)
 }
 void string2char(char* str, string* S)
 {
-	for (int i = 0; i < S->length; i++)
+	int len = S->length;
+	for (int i = 0; i < len; i++)
 	{
-		if (i == S->length)
-		{
-			str[i] = '\n';
-			str[i + 1] = '\0';
-		}
-		else str[i] = S->str[i];
+		str[i] = S->str[i];
 	}
-	str[S->length] = '\0';
+		str[len] = '\0';
 }
 void int2char(int length, char* str)
 {

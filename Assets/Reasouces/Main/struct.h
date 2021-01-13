@@ -68,9 +68,11 @@ typedef struct Route
 Route* Route_init();
 void Route_refresh(Route* p);
 Route* Route_create(Route* head);
-Route* Route_add(Route* head, string city);
+Route* Route_add_city(Route* head, string city);
+Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat);
 void Route_transfer(DestinationList* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time,string transfer_time, int money_origin2city,int money_origin2transfer,int money_transfer2city, int seat,int transfer_seat);
 Route* Route_find(Route* head, string city);
+void Route_save(Route* head);
 //===========================transform=============================//
 void char2string(string* S, char* str);
 void string2char(char* str, string* S);	

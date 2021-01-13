@@ -1,4 +1,4 @@
 ﻿  test.cpp
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\test.cpp(9,13): warning C4101: “seat”: 未引用的局部变量
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\test.cpp(9,6): warning C4101: “money”: 未引用的局部变量
+E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Route_function.h(281,11): warning C4101: “Dest_line”: 未引用的局部变量
+E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Route_function.h(278): warning C4715: “Route_find”: 不是所有的控件路径都返回值
   Main.vcxproj -> E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Debug\Main.exe

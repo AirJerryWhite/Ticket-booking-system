@@ -7,6 +7,7 @@ void CityList_FileInit()
 	FILE* fp;
 	fopen_s(&fp, "CityList.dat", "w");
 	fputc('0', fp);
+	fclose(fp);
 }
 CityList* CityList_init()
 {
@@ -71,8 +72,7 @@ CityList* CityList_add(CityList* head, string city)
 	if (CityList_find(head, city) == -1)
 	{
 		CityList* p, * add;
-		add = (CityList*)malloc(sizeof(CityList));
-		add->next = NULL;
+		add = CityList_init();
 		p = head;
 		str_copy(&add->city, city);
 		if (head->city.length == 0)
