@@ -7,7 +7,7 @@ FlightList* FlightList_init()
 	p = (FlightList*)malloc(sizeof(FlightList));
 	p->next = nullptr;
 	p->FlightNumber.length = 0;
-	p->Site = SeatList_init();
+	p->Seat = SeatList_init();
 	return p;
 }
 void FlightList_refresh(FlightList* head)
@@ -20,7 +20,7 @@ void FlightList_refresh(FlightList* head)
 		p->No = i;
 		i++;
 		p = p->next;
-	} while (p->next!=nullptr);
+	} while (p);
 }
 FlightList* FlightList_create(FlightList* head)
 {
@@ -83,7 +83,7 @@ FlightList* FlightList_create(FlightList* head)
 						{
 							char2string(&SiteNumber, str);
 							SeatNumber2int(SiteNumber, x, y);
-							SeatList_add(add->Site, date, time, x, y);
+							SeatList_add(add->Seat, date, time, x, y);
 							count++;
 							break;
 						}
@@ -119,17 +119,17 @@ FlightList* FlightList_add(FlightList* head, string FlightNumber, string date, s
 	FlightList* p, * add;
 	add = FlightList_init();
 	str_copy(&add->FlightNumber,FlightNumber);
-	SeatList_add(add->Site, date, time, x, y);
-	if (!FlightList_find(head, FlightNumber))
+	add->Seat =SeatList_add(add->Seat, date, time, x, y);
+	if (head->FlightNumber.length == 0) head = add;
+	else
 	{
-		if (head->FlightNumber.length == 0) head = add;
-		else
+		if (!FlightList_find(head, FlightNumber))
 		{
 			p = head;
-			do
+			while (p->next != NULL)
 			{
 				p = p->next;
-			} while (p->next!=nullptr);
+			} 
 			p->next = add;
 		}
 	}
@@ -143,28 +143,28 @@ FlightList* FlightList_find(FlightList* head, string FlightNumber)
 	{
 		if (str_compare(p->FlightNumber, FlightNumber))	return p;
 		else p = p->next;
-	} while (p->next!=nullptr);
+	} while (p);
 	return nullptr;
 }
 FlightList* FlightList_edit(FlightList* head, string FlightNumber, string date, string new_date, string time, string new_time)
 {
 	FlightList* p;
 	p = FlightList_find(head, FlightNumber);
-	SeatList_edit(p->Site, date, new_date, time, new_time);
+	SeatList_edit(p->Seat, date, new_date, time, new_time);
 	return head;
 }
 FlightList* FlightList_refund(FlightList* head, string FlightNumber, string date, string time, string SiteNumber)
 {
 	FlightList* p;
 	p = FlightList_find(head, FlightNumber);
-	SeatList_refund(p->Site, date, time, SiteNumber);
+	SeatList_refund(p->Seat, date, time, SiteNumber);
 	return head;
 }
 FlightList* FlightList_remove(FlightList* head, string FlightNumber, string date, string time)
 {
 	FlightList* p;
 	p = FlightList_find(head, FlightNumber);
-	SeatList_remove(p->Site, date, time);
+	SeatList_remove(p->Seat, date, time);
 	return head;
 }
 void FlightList_save(FlightList* head)
@@ -181,15 +181,15 @@ void FlightList_save(FlightList* head)
 	line = p->No + 1;
 
 	FILE* fp;
-	char str[502];
+	char str[100];
 	fopen_s(&fp, "FlightList.dat", "w");
 	int2char(line, str);
 	fputs(str, fp);
-	fputc('\n', fp);
+	//fputc('\n', fp);
 	p = head;
 	for (int i = 0; i < line; i++)
 	{
-		q = p->Site;
+		q = p->Seat;
 		do
 		{
 			string2char(str, &p->FlightNumber);

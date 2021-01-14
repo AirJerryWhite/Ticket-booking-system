@@ -25,7 +25,7 @@ void account_refresh(Account* head)
 		p = p->next;
 	} while (p);
 }
-Account* account_create(Account* head)
+Account* account_create(Account* head,CityList* citylist)
 {
 	FILE* fp;
 	int line,n=0,count;
@@ -36,7 +36,7 @@ Account* account_create(Account* head)
 	int money, seat, OP_level;
 	char str[100];
 	char cache[100];
-	fopen_s(&fp,"Account","r");
+	fopen_s(&fp,"Account.dat","r");
 	if (fp)
 	{
 		fgets(str, 5, fp);
@@ -44,116 +44,118 @@ Account* account_create(Account* head)
 		for (int i = 0; i < line; i++)
 		{
 			count = 0;
-			fgets(str,100, fp);
-			for (int m = 0; m < 100; m++)
+			if (fgets(str, 100, fp))
 			{
-				if (count == 13)	break;
-				count = 0;
-				if ((str[m] != ' ') || (str[m] != '\n'))
+				for (int m = 0; m < 100; m++)
 				{
-					cache[n] = str[m];
-					n++;
-				}
-				else
-				{
-					n = 0;
-					if (((str[m-1] != ' ') || (str[m-1] != '\n'))&&((str[m] == ' ') || (str[m] == '\n')))
+					if (count == 13)	break;
+					count = 0;
+					if ((str[m] != ' ') || (str[m] != '\n'))
 					{
-						switch (count)
+						cache[n] = str[m];
+						n++;
+					}
+					else
+					{
+						n = 0;
+						if (((str[m - 1] != ' ') || (str[m - 1] != '\n')) && ((str[m] == ' ') || (str[m] == '\n')))
 						{
-						case(0):
-						{
-							char2string(&string, cache);
-							str_copy(&username, string);
-							count++;
-							break;
-						}
-						case(1):
-						{
-							char2string(&string, cache);
-							str_copy(&passport, string);
-							count++;
-							break;
-						}
-						case(2):
-						{
-							char2string(&string, cache);
-							str_copy(&ID, string);
-							count++;
-							break;
-						}
-						case(3):
-						{
-							OP_level = char2int(cache);
-							count++;
-							head = account_add(head, username, passport, ID, OP_level);
-							break;
-						}
-						case(4):
-						{
-							char2string(&string, cache);
-							str_copy(&origin, string);
-							count++;
-							break;
-						}
-						case(5):
-						{
-							char2string(&string, cache);
-							str_copy(&city, string);
-							count++;
-							break;
-						}
-						case(6):
-						{
-							char2string(&string, cache);
-							str_copy(&FlightNumber, string);
-							count++;
-							break;
-						}
-						case(7):
-						{
-							char2string(&string, cache);
-							str_copy(&date, string);
-							count++;
-							break;
-						}
-						case(8):
-						{
-							char2string(&string, cache);
-							str_copy(&time, string);
-							count++;
-							break;
-						}
-						case(9):
-						{
-							money = char2int(cache);
-							count++;
-							break;
-						}
-						case(10):
-						{
-							seat = char2int(cache);
-							count++;
-							break;
-						}
-						case(11):
-						{
-							char2string(&string, cache);
-							str_copy(&SeatNumber, string);
-							count++;
-							break;
-						}
-						case(12):
-						{
-							add = account_find(head, username);
-							Route_add_flight(add->Flight, origin, city, FlightNumber, date, time, money, seat, path);
-							q=Dest_find_FlightNumber(add->Flight->Destination, FlightNumber);
-							str_copy(&q->FlightNumber, FlightNumber);
-							count++;
-							break;
-						}
-						default:
-							break;
+							switch (count)
+							{
+							case(0):
+							{
+								char2string(&string, cache);
+								str_copy(&username, string);
+								count++;
+								break;
+							}
+							case(1):
+							{
+								char2string(&string, cache);
+								str_copy(&passport, string);
+								count++;
+								break;
+							}
+							case(2):
+							{
+								char2string(&string, cache);
+								str_copy(&ID, string);
+								count++;
+								break;
+							}
+							case(3):
+							{
+								OP_level = char2int(cache);
+								count++;
+								head = account_add(head, username, passport, ID, OP_level);
+								break;
+							}
+							case(4):
+							{
+								char2string(&string, cache);
+								str_copy(&origin, string);
+								count++;
+								break;
+							}
+							case(5):
+							{
+								char2string(&string, cache);
+								str_copy(&city, string);
+								count++;
+								break;
+							}
+							case(6):
+							{
+								char2string(&string, cache);
+								str_copy(&FlightNumber, string);
+								count++;
+								break;
+							}
+							case(7):
+							{
+								char2string(&string, cache);
+								str_copy(&date, string);
+								count++;
+								break;
+							}
+							case(8):
+							{
+								char2string(&string, cache);
+								str_copy(&time, string);
+								count++;
+								break;
+							}
+							case(9):
+							{
+								money = char2int(cache);
+								count++;
+								break;
+							}
+							case(10):
+							{
+								seat = char2int(cache);
+								count++;
+								break;
+							}
+							case(11):
+							{
+								char2string(&string, cache);
+								str_copy(&SeatNumber, string);
+								count++;
+								break;
+							}
+							case(12):
+							{
+								add = account_find(head, username);
+								Route_add_flight(add->Flight, citylist, origin, city, FlightNumber, date, time, money, seat, path);
+								q = Dest_find_FlightNumber(add->Flight->Destination, FlightNumber);
+								str_copy(&q->FlightNumber, FlightNumber);
+								count++;
+								break;
+							}
+							default:
+								break;
+							}
 						}
 					}
 				}

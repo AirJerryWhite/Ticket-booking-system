@@ -48,7 +48,7 @@ Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 		{
 			head=Route_add_city(head, q->city);
 			q = q->next;
-		} while (p);
+		} while (q);
 		fopen_s(&fp, "Route.dat", "r");
 		if (fp)
 		{
@@ -61,7 +61,6 @@ Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 				for (int n = 0; n < 100; n++)
 				{
 					if (count == 7)	break;
-					count = 0;
 					if ((str[n] != ' ') && (str[n] != '\n'))
 					{
 						cache[m] = str[n];
@@ -130,7 +129,7 @@ Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 								char2string(&string, cache);
 								str_copy(&SiteSize, string);
 								SeatNumber2int(SiteSize, x, y);
-								FlightList_add(flightlist, FlightNumber, date, time, x, y);
+								flightlist=FlightList_add(flightlist, FlightNumber, date, time, x, y);
 							}
 							case(7):
 							{
@@ -289,10 +288,10 @@ Route* Route_find(Route* head, string city)
 		else	p = p->Next;
 	} while (p);
 }
-void Route_save(Route* head,char* path)
+void Route_save(Route* head,string path)
 {
 	int line,Dest_line;
-	char str[105];
+	char str[105],PATH[105];
 	Route_refresh(head);
 	Route* p;
 	DestinationList* q;
@@ -302,9 +301,9 @@ void Route_save(Route* head,char* path)
 		p = p->Next;
 	}
 	line = p->No+1;
-
+	string2char(PATH, &path);
 	FILE* fp;
-	fopen_s(&fp, path , "w");
+	fopen_s(&fp, PATH , "w");
 	int2char(line, str);
 	fputs(str, fp);
 	fputc('\n', fp);

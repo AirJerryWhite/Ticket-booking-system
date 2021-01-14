@@ -82,7 +82,7 @@ typedef struct FlightList
 {
 	int No;
 	string FlightNumber;
-	SeatList* Site;
+	SeatList* Seat;
 	FlightList* next;
 }FlightList;
 FlightList* FlightList_init();
@@ -106,7 +106,7 @@ Route* Route_init();
 void Route_refresh(Route* p);
 Route* Route_create(Route* head, CityList* citylist, FlightList* flightlist);
 Route* Route_add_city(Route* head, string city);
-Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat,string path);
+Route* Route_add_flight(Route* head,CityList* citylist ,string origin, string city, string FlightNumber, string date, string time, int money, int seat,string path);
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat);
 Route* Route_find(Route* head, string city);
 void Route_save(Route* head, string path);
@@ -123,7 +123,7 @@ typedef struct Account
 }Account;
 Account* account_init();
 void account_refresh(Account* head);
-Account* account_create(Account* head);
+Account* account_create(Account* head, CityList* citylsit);
 void account_edit(Account* head, string username, string newpassport);
 void account_FileInit();
 Account* account_find(Account* head, string username);

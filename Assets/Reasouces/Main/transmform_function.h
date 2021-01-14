@@ -80,8 +80,8 @@ int char2int(char* str)
 void SeatNumber2int(string SiteNumber, int& x, int& y)
 {
 	char str[100];
-	x = SiteNumber.str[SiteNumber.length - 1] - 'A';	//此处由于实际民航座位编号视机型而定，内容过于复杂故将其简易化
-	SiteNumber.str[SiteNumber.length - 1] = '/0';
+	x = SiteNumber.str[SiteNumber.length - 1] - 'A'+1;	//此处由于实际民航座位编号视机型而定，内容过于复杂故将其简易化
+	SiteNumber.str[SiteNumber.length - 1] = '\0';
 	string2char(str, &SiteNumber);
 	y = char2int(str);
 }

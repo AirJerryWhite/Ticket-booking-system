@@ -20,7 +20,57 @@ void menu_display(string path)
 		printf("%s", str);
 	}
 }
-void menu(int mode)
+void menu()
 {
+
+	CityList* cache;
+	cache = CityList_init();
+	Account* account;
+	account = account_init();
+	account = account_create(account, cache);
+	//Account
+
+	FlightList* flightlist;
+	flightlist = FlightList_init();
+	flightlist = FlightList_create(flightlist);
+	//FlightList
+
+	CityList* citylist;
+	citylist = CityList_init();
+	citylist = CityList_create(citylist);
+	Route* route;
+	route = Route_init();
+	route = Route_create(route, citylist, flightlist);
+	//FLightRoute
+	//start
+
+	string menu, Accountlogin_menu, exit;
+	char2string(&menu, "Menu.dat");
+	char2string(&Accountlogin_menu, "AccountLogin_menu.dat");
+	char2string(&exit, "exit.dat");
+	//path
+	int mode;
+	int OP_level = -1;
+	while (1)
+	{
+		menu_display(menu);
+		scanf_s("%d", &mode);
+		switch (mode)
+		{
+		case(0):
+		{
+			system("cls");
+			menu_display(exit);
+			break;
+		}
+		case(1):
+		{
+			system("cls");
+			menu_display(Accountlogin_menu);
+
+		}
+		default:break;
+		}
+	}
 }
 #pragma once
