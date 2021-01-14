@@ -5,6 +5,7 @@ Account* account_init()
 {
 	Account* head;
 	head = (Account*)malloc(sizeof(Account));
+	head->Flight = Route_init();
 	head->username.length = 0;
 	head->next = NULL;
 	return head;
@@ -26,7 +27,8 @@ Account* account_create(Account* head)
 	FILE* fp;
 	int line,n=0,count;
 	Account* p, * add;
-	string string;
+	string string, username, passport, origin, city, FlightNumber, date, time, SeatNumber;
+	int money, seat;
 	char str[100];
 	char cache[100];
 	fopen_s(&fp,"Account","r");
@@ -45,7 +47,7 @@ Account* account_create(Account* head)
 			{
 				if (count == 6)	break;
 				count = 0;
-				if ((str[m] != ' ') || (str[m] != '.'))
+				if ((str[m] != ' ') || (str[m] != '\n'))
 				{
 					cache[n] = str[m];
 					n++;
@@ -53,27 +55,70 @@ Account* account_create(Account* head)
 				else
 				{
 					n = 0;
-					if (((str[m-1] != ' ') || (str[m-1] != '.'))&&((str[m] == ' ') || (str[m] == '.')))
+					if (((str[m-1] != ' ') || (str[m-1] != '\n'))&&((str[m] == ' ') || (str[m] == '\n')))
 					{
 						switch (count)
 						{
 						case(0):
 						{
-							add->No = char2int(cache);
+							char2string(&string, cache);
+							str_copy(&username, string);
 							count++;
 							break;
 						}
 						case(1):
 						{
-							char2string(&string, str);
-							str_copy(&add->username, string);
+							char2string(&string, cache);
+							str_copy(&passport, string);
+							head = account_add(head, username, passport);
+							add = account_find(head, username);
 							count++;
 							break;
 						}
 						case(2):
 						{
-							char2string(&string, str);
-							str_copy(&add->passport, string);
+							char2string(&string, cache);
+							str_copy(&origin, string);
+							count++;
+							break;
+						}
+						case(3):
+						{
+							char2string(&string, cache);
+							str_copy(&city, string);
+							count++;
+							break;
+						}
+						case(4):
+						{
+							char2string(&string, cache);
+							str_copy(&FlightNumber, string);
+							count++;
+							break;
+						}
+						case(5):
+						{
+							char2string(&string, cache);
+							str_copy(&date, string);
+							count++;
+							break;
+						}
+						case(6):
+						{
+							char2string(&string, cache);
+							str_copy(&time, string);
+							count++;
+							break;
+						}
+						case(7):
+						{
+							money = char2int(cache);
+							count++;
+							break;
+						}
+						case(8):
+						{
+							seat = char2int(cache);
 							count++;
 							break;
 						}
@@ -154,27 +199,32 @@ Account* account_add(Account* head, string username, string passport)
 {
 	Account* p, * add;
 	p = head;
-	do
+	if (!account_find(head, username))
 	{
-		p = p->next;
-	} while (p);
-	encryp_passport(&passport);
-	add->No = p->No++;
-	str_copy(&add->username, username);
-	str_copy(&add->passport, passport);
-	if (head->username.length == 0)
-	{
-		head = add;
-		p = head;
+		do
+		{
+			p = p->next;
+		} while (p);
+		encryp_passport(&passport);
+		add->No = p->No++;
+		str_copy(&add->username, username);
+		str_copy(&add->passport, passport);
+		if (head->username.length == 0)
+		{
+			head = add;
+			p = head;
+		}
+		else p = add;
+		return head;
 	}
-	else p = add;
-	return head;
 }
 void account_save(Account* head)
 {
 	FILE* fp;
 	int line;
 	Account* p;
+	Route* route;
+	DestinationList* dest;
 	char str[100];
 	account_refresh(head);
 	p = head;
@@ -190,15 +240,46 @@ void account_save(Account* head)
 	fputc('\n', fp);
 	for (int i = 0; i < line; i++)
 	{
-		int2char(p->No, str);
-		fputs(str, fp);
-		fputc('.', fp);
-		string2char(str, &p->username);
-		fputs(str, fp);
-		fputc(' ', fp);
-		string2char(str, &p->passport);
-		fputs(str, fp);
-		fputc('/n', fp);
+		route = p->Flight;
+		dest = route->Destination;
+		do
+		{
+			do
+			{
+				string2char(str, &p->username);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &p->passport);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &route->city);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &dest->city);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &dest->FlightNumber);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &dest->date);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &dest->time);
+				fputs(str, fp);
+				fputc(' ', fp);
+				int2char(dest->money, str);
+				fputs(str, fp);
+				fputc(' ', fp);
+				int2char(dest->seat, str);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &dest->SeatNumber);
+				fputs(str, fp);
+				fputc('\n', fp);
+				dest = dest->next;
+			} while (dest->next!=nullptr);
+			route = route->Next;
+		} while (route->Next!=nullptr);
 		p = p->next;
 	}
 }

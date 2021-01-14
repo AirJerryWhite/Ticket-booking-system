@@ -1,24 +1,24 @@
 #include "struct.h"
 #include "str_function.h"
 #include "transmform_function.h"
-SiteList* SiteList_init()
+SeatList* SeatList_init()
 {
-	SiteList* p;
-	p = (SiteList*)malloc(sizeof(SiteList));
+	SeatList* p;
+	p = (SeatList*)malloc(sizeof(SeatList));
 	p->date.length = 0;
 	p->next = nullptr;
 	return p;
 }
-SiteList* SiteList_loadSite(SiteList* head, string date, string time, string Site)
+SeatList* SeatList_loadSite(SeatList* head, string date, string time, string seat)
 {
 	int x=0, y=0;
-	SiteList* p;
+	SeatList* p;
 	p = SiteList_find(head, date, time);
-	for (int i = 0; i < Site.length; i++)
+	for (int i = 0; i < seat.length; i++)
 	{
-		p->site[x][y] = Site.str[i] - '0';
+		p->seat[x][y] = seat.str[i] - '0';
 		x++;
-		if (x>sizeof(p->site))
+		if (x>sizeof(p->seat))
 		{
 			x = 0;
 			y++;
@@ -26,21 +26,21 @@ SiteList* SiteList_loadSite(SiteList* head, string date, string time, string Sit
 	}
 	return head;
 }
-SiteList* SiteList_add(SiteList* head, string date, string time, int x, int y)
+SeatList* SeatList_add(SeatList* head, string date, string time, int x, int y)
 {
-	SiteList* p, * add;
+	SeatList* p, * add;
 	str_copy(&add->date, date);
 	str_copy(&add->time, time);
-	add->site = (bool**)malloc(sizeof(int) * x);
+	add->seat = (bool**)malloc(sizeof(int) * x);
 	for (int i = 0; i < x; i++)
 	{
-		add->site[i] = (bool*)malloc(sizeof(int) * y);
+		add->seat[i] = (bool*)malloc(sizeof(int) * y);
 	}
 	for (int m = 0; m < x; m++)
 	{
 		for (int n = 0; n < y; n++)
 		{
-			add->site[m][n] = 0;
+			add->seat[m][n] = 0;
 		}
 	}
 	if (head->date.length == 0)
@@ -58,10 +58,10 @@ SiteList* SiteList_add(SiteList* head, string date, string time, int x, int y)
 	}
 	return head;
 }
-void SiteList_refresh(SiteList* head)
+void SeatList_refresh(SeatList* head)
 {
 	int i = 0;
-	SiteList* p;
+	SeatList* p;
 	p = head;
 	do
 	{
@@ -70,9 +70,9 @@ void SiteList_refresh(SiteList* head)
 		p = p->next;
 	} while (p->next!=nullptr);
 }
-SiteList* SiteList_find(SiteList* head, string date, string time)
+SeatList* SeatList_find(SeatList* head, string date, string time)
 {
-	SiteList* p;
+	SeatList* p;
 	p = head;
 	do
 	{
@@ -81,15 +81,15 @@ SiteList* SiteList_find(SiteList* head, string date, string time)
 	} while (p);
 	return nullptr;
 }
-SiteList* SiteList_bookingSite(SiteList* head, string date, string time, string SiteNumber, bool& success)
+SeatList* SeatList_bookingSite(SeatList* head, string date, string time, string SiteNumber, bool& success)
 {
 	int x, y;
-	SiteList* p;
+	SeatList* p;
 	SiteNumber2int(SiteNumber, x, y);
 	p = SiteList_find(head, date, time);
-	if (p->site[x][y]==0)
+	if (p->seat[x][y]==0)
 	{
-		p->site[x][y] = 1;
+		p->seat[x][y] = 1;
 		success = true;
 	}
 	else
@@ -98,27 +98,27 @@ SiteList* SiteList_bookingSite(SiteList* head, string date, string time, string 
 	}
 	return head;
 }
-SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time)
+SeatList* SeatList_edit(SeatList* head, string date, string new_date, string time, string new_time)
 {
-	SiteList* p;
+	SeatList* p;
 	p = SiteList_find(head, date, time);
 	str_copy(&p->date,new_date);
 	str_copy(&p->time, new_time);
 	return head;
 }
-SiteList* SiteList_refund(SiteList* head, string date, string time, string SiteNumber)
+SeatList* SeatList_refund(SeatList* head, string date, string time, string SiteNumber)
 {
-	SiteList* p;
+	SeatList* p;
 	p = SiteList_find(head, date, time);
 	int x, y;
 	SiteNumber2int(SiteNumber, x, y);
-	p->site[x][y] = 0;
+	p->seat[x][y] = 0;
 	return head;
 }
-SiteList* SiteList_remove(SiteList* head, string date, string time)
+SeatList* SeatList_remove(SeatList* head, string date, string time)
 {
 	SiteList_refresh(head);
-	SiteList* p,*pre;
+	SeatList* p,*pre;
 	pre = head;
 	p = SiteList_find(head, date, time);
 	do

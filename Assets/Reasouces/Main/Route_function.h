@@ -3,6 +3,7 @@
 #include "Dest_function.h"
 #include "CityList_function.h"
 #include "transmform_function.h"
+#include "FlightList_Function.h"
 Route* Route_init()
 {
 	Route* p;
@@ -22,12 +23,12 @@ void Route_refresh(Route* p)
 		p = p->Next;
 	} while (p);
 }
-Route* Route_create(Route* head, CityList* citylist)
+Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 {
 	CityList* q;
 	Route* p, * add;
-	string origin, city, FlightNumber, date, time;
-	int money, seat, line, count,m=0;
+	string origin, city, FlightNumber, date, time,SiteSize;
+	int money, seat, line, count,m=0,x,y;
 	char str[105], cache[100];
 	string string;
 	string = str_init();
@@ -59,7 +60,7 @@ Route* Route_create(Route* head, CityList* citylist)
 				fgets(str, 100, fp);
 				for (int n = 0; n < 100; n++)
 				{
-					if (count == 6)	break;
+					if (count == 7)	break;
 					count = 0;
 					if ((str[n] != ' ') && (str[n] != '\n'))
 					{
@@ -125,6 +126,13 @@ Route* Route_create(Route* head, CityList* citylist)
 								break;
 							}
 							case(6):
+							{
+								char2string(&string, cache);
+								str_copy(&SiteSize, string);
+								SeatNumber2int(SiteSize, x, y);
+								FlightList_add(flightlist, FlightNumber, date, time, x, y);
+							}
+							case(7):
 							{
 								seat = char2int(cache);
 								count++;
@@ -230,6 +238,7 @@ Route* Route_create(Route* head, CityList* citylist)
 		}
 	}
 	fclose(fp);
+	FlightList_save(flightlist);
 	CityList_save(citylist);
 	return head;
 }
@@ -251,11 +260,14 @@ Route* Route_add_city(Route* head, string city)
 	}
 	return head;
 }
-Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat)
+Route* Route_add_flight(Route* head,CityList* citylist ,string origin, string city, string FlightNumber, string date, string time, int money, int seat)
 {
 	Route* p;
+	citylist=CityList_add(citylist, origin);
+	citylist=CityList_add(citylist, city);
 	p = Route_find(head, origin);
 	Dest_add(p->Destination, origin, city, FlightNumber, date, time, money, seat);
+	CityList_save(citylist);
 	return head;
 }
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat)
