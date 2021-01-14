@@ -22,6 +22,7 @@ void str_create(string* S);
 void str_copy(string* S,string T);
 int str_compare(string S, string T);
 void str_display(string S);	/*for test*/
+void str_refresh(string* S);
 //===========================CityList==============================//
 typedef struct CityList
 {
@@ -91,6 +92,7 @@ FlightList* FlightList_find(FlightList* head, string FlightNumber);
 FlightList* FlightList_edit(FlightList* head, string FlightNumber, string date, string new_date, string time, string new_time);
 FlightList* FlightList_refund(FlightList* head, string FlightNumber, string date, string time,string SiteNumber);
 FlightList* FlightList_remove(FlightList* head, string FlightNumber, string date, string time);
+void FlightList_save(FlightList* head);
 //===========================Route=============================//
 typedef struct Route
 {
@@ -107,6 +109,27 @@ Route* Route_add_flight(Route* head, string origin, string city, string FlightNu
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat);
 Route* Route_find(Route* head, string city);
 void Route_save(Route* head);
+//============================accout==============================//
+typedef struct Account
+{
+	int No;
+	string username;
+	string passport;
+	Account* next;
+}Account;
+Account* account_init();
+void account_refresh(Account* head);
+Account* account_create(Account* head);
+void account_input();
+void account_edit(Account* head, string username, string newpassport);
+void account_FileInit();
+Account* account_find(Account* head, string username);
+Account* account_add(Account* head, string username, string passport);
+void account_save(Account* head);
+int account_login(Account* head, string username, string passport);
+void account_display(Account* head);
+void encryp_passport(string* passport);
+string decrypt_passpore(string passport);
 //===========================transform=============================//
 void char2string(string* S, char* str);
 void string2char(char* str, string* S);	

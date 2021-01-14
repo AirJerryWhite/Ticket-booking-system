@@ -165,4 +165,52 @@ FlightList* FlightList_remove(FlightList* head, string FlightNumber, string date
 	SiteList_remove(p->Site, date, time);
 	return head;
 }
+void FlightList_save(FlightList* head)
+{
+	FlightList_refresh(head);
+	int line;
+	FlightList* p;
+	SiteList* q;
+	p = head;
+	do
+	{
+		p = p->next;
+	} while (p->next!=nullptr);
+	line = p->No + 1;
+
+	FILE* fp;
+	char str[502];
+	fopen_s(&fp, "FlightList.dat", "w");
+	int2char(line, str);
+	fputs(str, fp);
+	fputc('\n', fp);
+	p = head;
+	for (int i = 0; i < line; i++)
+	{
+		q = p->Site;
+		do
+		{
+			string2char(str, &p->FlightNumber);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->date);
+			fputs(str, fp);
+			fputc(' ', fp);
+			string2char(str, &q->time);
+			fputs(str, fp);
+			fputc(' ', fp);
+			for (int m = 0; m < sizeof(q->site[m]); m++)
+			{
+				for (int n = 0; n < sizeof(q->site); n++)
+				{
+					if (q->site[m][n]==0)	putc('0', fp);
+					else putc('1', fp);
+				}
+			}
+			fputc('\n', fp);
+			q = q->next;
+		} while (q->next!=nullptr);
+		p = p->next;
+	}
+}
 #pragma once

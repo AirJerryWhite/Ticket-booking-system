@@ -48,4 +48,10 @@ int str_compare(string S, string T)
 	else flag = 0;
 	return flag;
 }
+void str_refresh(string* S)
+{
+	string p;
+	p.length = 0;
+	str_copy(S, p);
+}
 #pragma once
