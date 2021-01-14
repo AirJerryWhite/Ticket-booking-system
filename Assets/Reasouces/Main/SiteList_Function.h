@@ -91,18 +91,21 @@ SiteList* SiteList_bookingSite(SiteList* head, string date, string time, string 
 	}
 	return head;
 }
-SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time, string SiteNumber)
+SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time)
 {
 	SiteList* p;
 	p = SiteList_find(head, date, time);
 	str_copy(&p->date,new_date);
 	str_copy(&p->time, new_time);
-	if (SiteNumber.length != 0)
-	{
-		int x, y;
-		SiteNumber2int(SiteNumber, x, y);
-		p->site[x][y] = 0;
-	}
+	return head;
+}
+SiteList* SiteList_refund(SiteList* head, string date, string time, string SiteNumber)
+{
+	SiteList* p;
+	p = SiteList_find(head, date, time);
+	int x, y;
+	SiteNumber2int(SiteNumber, x, y);
+	p->site[x][y] = 0;
 	return head;
 }
 SiteList* SiteList_remove(SiteList* head, string date, string time)

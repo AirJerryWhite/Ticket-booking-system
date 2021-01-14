@@ -72,7 +72,8 @@ SiteList* SiteList_add(SiteList* head,string date,string time,int x, int y);
 void SiteList_refresh(SiteList* head);
 SiteList* SiteList_find(SiteList* head, string date, string time);
 SiteList* SiteList_bookingSite(SiteList* head, string date, string time, string SiteNumber, bool& success);
-SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time, string SiteNumber);
+SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time);
+SiteList* SiteList_refund(SiteList* head, string date, string time, string SiteNumber);
 SiteList* SiteList_remove(SiteList* head, string date, string time);
 //===========================FlightList=============================//
 typedef struct FlightList
@@ -83,6 +84,13 @@ typedef struct FlightList
 	FlightList* next;
 }FlightList;
 FlightList* FlightList_init();
+void FlightList_refresh(FlightList* head);
+FlightList* FlightList_create(FlightList* head);
+FlightList* FlightList_add(FlightList* head, string FlightNumber, string date, string time, int x, int y);
+FlightList* FlightList_find(FlightList* head, string FlightNumber);
+FlightList* FlightList_edit(FlightList* head, string FlightNumber, string date, string new_date, string time, string new_time);
+FlightList* FlightList_refund(FlightList* head, string FlightNumber, string date, string time,string SiteNumber);
+FlightList* FlightList_remove(FlightList* head, string FlightNumber, string date, string time);
 //===========================Route=============================//
 typedef struct Route
 {
