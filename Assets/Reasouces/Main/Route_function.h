@@ -30,7 +30,7 @@ Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 	string origin, city, FlightNumber, date, time,SiteSize;
 	int money, seat, line, count,m=0,x,y;
 	char str[105], cache[100];
-	string string;
+	string string,path;
 	string = str_init();
 	p = (Route*)malloc(sizeof(Route));
 	add = Route_init();
@@ -238,8 +238,9 @@ Route* Route_create(Route* head, CityList* citylist,FlightList* flightlist)
 		}
 	}
 	fclose(fp);
+	char2string(&path, "CityList.dat");
 	FlightList_save(flightlist);
-	CityList_save(citylist);
+	CityList_save(citylist,path);
 	return head;
 }
 Route* Route_add_city(Route* head, string city)
@@ -260,14 +261,14 @@ Route* Route_add_city(Route* head, string city)
 	}
 	return head;
 }
-Route* Route_add_flight(Route* head,CityList* citylist ,string origin, string city, string FlightNumber, string date, string time, int money, int seat)
+Route* Route_add_flight(Route* head,CityList* citylist ,string origin, string city, string FlightNumber, string date, string time, int money, int seat,string path)
 {
 	Route* p;
 	citylist=CityList_add(citylist, origin);
 	citylist=CityList_add(citylist, city);
 	p = Route_find(head, origin);
-	Dest_add(p->Destination, origin, city, FlightNumber, date, time, money, seat);
-	CityList_save(citylist);
+	p->Destination=Dest_add(p->Destination, origin, city, FlightNumber, date, time, money, seat);
+	CityList_save(citylist,path);
 	return head;
 }
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat)
@@ -288,7 +289,7 @@ Route* Route_find(Route* head, string city)
 		else	p = p->Next;
 	} while (p);
 }
-void Route_save(Route* head)
+void Route_save(Route* head,char* path)
 {
 	int line,Dest_line;
 	char str[105];
@@ -303,7 +304,7 @@ void Route_save(Route* head)
 	line = p->No+1;
 
 	FILE* fp;
-	fopen_s(&fp, "Route.dat", "w");
+	fopen_s(&fp, path , "w");
 	int2char(line, str);
 	fputs(str, fp);
 	fputc('\n', fp);

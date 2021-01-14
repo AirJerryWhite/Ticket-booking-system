@@ -121,11 +121,11 @@ int CityList_find(CityList* head, string city)
 	} while (p);
 	return no;
 }
-void CityList_save(CityList* head)
+void CityList_save(CityList* head,string path)
 {
 	CityList* p;
 	int length = 0;
-	char string[100];
+	char string[100],PATH[100];
 	p = head;
 	CityList_refresh(p);
 	do
@@ -140,7 +140,8 @@ void CityList_save(CityList* head)
 	length++;
 	FILE* fp;
 	fp = NULL;
-	fopen_s(&fp, "CityList.dat", "w");
+	string2char(PATH, &path);
+	fopen_s(&fp, PATH, "w");
 	if (fp != NULL)
 	{
 		int2char(length, string);

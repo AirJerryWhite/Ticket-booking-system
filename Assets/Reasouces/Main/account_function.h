@@ -27,7 +27,9 @@ Account* account_create(Account* head)
 	FILE* fp;
 	int line,n=0,count;
 	Account* p, * add;
-	string string, username, passport, origin, city, FlightNumber, date, time, SeatNumber;
+	DestinationList* q;
+	string string, username, passport, origin, city, FlightNumber, date, time, SeatNumber,path;
+	char2string(&path, "Cache.dat");
 	int money, seat;
 	char str[100];
 	char cache[100];
@@ -45,7 +47,7 @@ Account* account_create(Account* head)
 			fgets(str,100, fp);
 			for (int m = 0; m < 100; m++)
 			{
-				if (count == 6)	break;
+				if (count == 11)	break;
 				count = 0;
 				if ((str[m] != ' ') || (str[m] != '\n'))
 				{
@@ -122,6 +124,21 @@ Account* account_create(Account* head)
 							count++;
 							break;
 						}
+						case(9):
+						{
+							char2string(&string, cache);
+							str_copy(&SeatNumber, string);
+							count++;
+							break;
+						}
+						case(10):
+						{
+							Route_add_flight(add->Flight, origin, city, FlightNumber, date, time, money, seat, path);
+							q=Dest_find_FlightNumber(add->Flight->Destination, FlightNumber);
+							str_copy(&q->FlightNumber, FlightNumber);
+							count++;
+							break;
+						}
 						default:
 							break;
 						}
@@ -140,6 +157,7 @@ Account* account_create(Account* head)
 			}
 		}
 	}
+	account_save(head);
 	return head;
 }
 void account_input()

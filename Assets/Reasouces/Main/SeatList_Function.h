@@ -13,7 +13,7 @@ SeatList* SeatList_loadSite(SeatList* head, string date, string time, string sea
 {
 	int x=0, y=0;
 	SeatList* p;
-	p = SiteList_find(head, date, time);
+	p = SeatList_find(head, date, time);
 	for (int i = 0; i < seat.length; i++)
 	{
 		p->seat[x][y] = seat.str[i] - '0';
@@ -85,8 +85,8 @@ SeatList* SeatList_bookingSite(SeatList* head, string date, string time, string 
 {
 	int x, y;
 	SeatList* p;
-	SiteNumber2int(SiteNumber, x, y);
-	p = SiteList_find(head, date, time);
+	SeatNumber2int(SiteNumber, x, y);
+	p = SeatList_find(head, date, time);
 	if (p->seat[x][y]==0)
 	{
 		p->seat[x][y] = 1;
@@ -101,7 +101,7 @@ SeatList* SeatList_bookingSite(SeatList* head, string date, string time, string 
 SeatList* SeatList_edit(SeatList* head, string date, string new_date, string time, string new_time)
 {
 	SeatList* p;
-	p = SiteList_find(head, date, time);
+	p = SeatList_find(head, date, time);
 	str_copy(&p->date,new_date);
 	str_copy(&p->time, new_time);
 	return head;
@@ -109,18 +109,18 @@ SeatList* SeatList_edit(SeatList* head, string date, string new_date, string tim
 SeatList* SeatList_refund(SeatList* head, string date, string time, string SiteNumber)
 {
 	SeatList* p;
-	p = SiteList_find(head, date, time);
+	p = SeatList_find(head, date, time);
 	int x, y;
-	SiteNumber2int(SiteNumber, x, y);
+	SeatNumber2int(SiteNumber, x, y);
 	p->seat[x][y] = 0;
 	return head;
 }
 SeatList* SeatList_remove(SeatList* head, string date, string time)
 {
-	SiteList_refresh(head);
+	SeatList_refresh(head);
 	SeatList* p,*pre;
 	pre = head;
-	p = SiteList_find(head, date, time);
+	p = SeatList_find(head, date, time);
 	do
 	{
 		if (pre->No == (p->No--)) break;

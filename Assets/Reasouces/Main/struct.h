@@ -37,7 +37,7 @@ CityList* CityList_create(CityList* head);
 CityList* CityList_add(CityList* head, string city);
 void CityList_display(CityList* head);	/*for test*/
 int CityList_find(CityList* head, string city);
-void CityList_save(CityList* head);
+void CityList_save(CityList* head, string path);
 //===========================DestinationList==============================//
 typedef struct DestinationList
 {
@@ -65,7 +65,7 @@ typedef struct SeatList
 	int No;
 	string date;
 	string time;
-	bool** site;
+	bool** seat;
 	SeatList* next;
 }SeatList;
 SeatList* SeatList_init();
@@ -106,10 +106,10 @@ Route* Route_init();
 void Route_refresh(Route* p);
 Route* Route_create(Route* head, CityList* citylist, FlightList* flightlist);
 Route* Route_add_city(Route* head, string city);
-Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat);
+Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat,string path);
 void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat);
 Route* Route_find(Route* head, string city);
-void Route_save(Route* head);
+void Route_save(Route* head, string path);
 //============================accout==============================//
 typedef struct Account
 {
@@ -134,6 +134,7 @@ void encryp_passport(string* passport);
 string decrypt_passpore(string passport);
 //===========================transform=============================//
 void char2string(string* S, char* str);
+void char2string(string* S, const char* str)
 void string2char(char* str, string* S);	
 void int2char(int length, char* str);
 int char2int(char* str);

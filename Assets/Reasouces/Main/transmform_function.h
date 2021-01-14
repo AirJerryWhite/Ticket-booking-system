@@ -19,6 +19,24 @@ void char2string(string* S, char* str)
 	}
 	S->length = length;
 }
+void char2string(string* S,const char* str)
+{
+	int length = 0;
+	for (int i = 0; i < 100; i++)
+	{
+		if (str[i] == '\n' || str[i] == '\0')
+		{
+			S->str[i] = '\0';
+			break;
+		}
+		else
+		{
+			S->str[i] = str[i];
+			length++;
+		}
+	}
+	S->length = length;
+}
 void string2char(char* str, string* S)
 {
 	int len = S->length;
