@@ -1,7 +1,4 @@
-﻿  test.cpp
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\transmform_function.h(66,46): warning C4305: “=”: 从“int”到“char”截断
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\transmform_function.h(66,42): warning C4309: “=”: 截断常量值
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Route_function.h(281,11): warning C4101: “Dest_line”: 未引用的局部变量
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\test.cpp(7,6): warning C4101: “a”: 未引用的局部变量
-E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Route_function.h(278): warning C4715: “Route_find”: 不是所有的控件路径都返回值
-  Main.vcxproj -> E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Debug\Main.exe
+﻿test.obj : error LNK2019: 无法解析的外部符号 "struct Route * __cdecl Route_add_flight(struct Route *,struct string,struct string,struct string,struct string,struct string,int,int,struct string)" (?Route_add_flight@@YAPAURoute@@PAU1@Ustring@@1111HH1@Z)，函数 "struct Account * __cdecl account_create(struct Account *)" (?account_create@@YAPAUAccount@@PAU1@@Z) 中引用了该符号
+    已定义且可能匹配的符号上的提示:
+      "struct Route * __cdecl Route_add_flight(struct Route *,struct CityList *,struct string,struct string,struct string,struct string,struct string,int,int,struct string)" (?Route_add_flight@@YAPAURoute@@PAU1@PAUCityList@@Ustring@@2222HH2@Z)
+E:\文件\实验报告\数据结构\课程设计\Ticket-booking-system\Assets\Reasouces\Main\Debug\Main.exe : fatal error LNK1120: 1 个无法解析的外部命令

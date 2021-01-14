@@ -148,6 +148,7 @@
     <ClInclude Include="Stack_function.h" />
     <ClInclude Include="str_function.h" />
     <ClInclude Include="struct.h" />
+    <ClInclude Include="system.h" />
     <ClInclude Include="transmform_function.h" />
   </ItemGroup>
   <ItemGroup>

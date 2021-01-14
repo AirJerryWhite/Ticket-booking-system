@@ -1,8 +1,8 @@
-#include "struct.h"
-#include "str_function.h"
-#include "CityList_function.h"
-#include "Route_function.h"
+#include "system.h"
+#include "transmform_function.h"
 int main()
 {
-
+	string path;
+	char2string(&path, "Menu.dat");
+	menu_display(path);
 }

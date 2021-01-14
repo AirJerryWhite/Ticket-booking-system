@@ -116,17 +116,18 @@ typedef struct Account
 	int No;
 	string username;
 	string passport;
+	string ID;
 	Route* Flight;
+	int OP_level;
 	Account* next;
 }Account;
 Account* account_init();
 void account_refresh(Account* head);
 Account* account_create(Account* head);
-void account_input();
 void account_edit(Account* head, string username, string newpassport);
 void account_FileInit();
 Account* account_find(Account* head, string username);
-Account* account_add(Account* head, string username, string passport);
+Account* account_add(Account* head, string username, string passport,string ID,int OP_level);
 void account_save(Account* head);
 int account_login(Account* head, string username, string passport);
 void account_display(Account* head);
@@ -134,7 +135,7 @@ void encryp_passport(string* passport);
 string decrypt_passpore(string passport);
 //===========================transform=============================//
 void char2string(string* S, char* str);
-void char2string(string* S, const char* str)
+void char2string(string* S, const char* str);
 void string2char(char* str, string* S);	
 void int2char(int length, char* str);
 int char2int(char* str);

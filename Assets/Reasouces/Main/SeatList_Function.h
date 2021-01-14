@@ -29,6 +29,7 @@ SeatList* SeatList_loadSite(SeatList* head, string date, string time, string sea
 SeatList* SeatList_add(SeatList* head, string date, string time, int x, int y)
 {
 	SeatList* p, * add;
+	add = SeatList_init();
 	str_copy(&add->date, date);
 	str_copy(&add->time, time);
 	add->seat = (bool**)malloc(sizeof(int) * x);

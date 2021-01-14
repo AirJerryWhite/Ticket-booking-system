@@ -12,7 +12,7 @@ FlightList* FlightList_init()
 }
 void FlightList_refresh(FlightList* head)
 {
-	int i;
+	int i=0;
 	FlightList* p;
 	p = head;
 	do
@@ -96,6 +96,7 @@ FlightList* FlightList_create(FlightList* head)
 							}
 							else
 							{
+								p = head;
 								do
 								{
 									p = p->next;
@@ -124,6 +125,7 @@ FlightList* FlightList_add(FlightList* head, string FlightNumber, string date, s
 		if (head->FlightNumber.length == 0) head = add;
 		else
 		{
+			p = head;
 			do
 			{
 				p = p->next;
@@ -199,11 +201,11 @@ void FlightList_save(FlightList* head)
 			string2char(str, &q->time);
 			fputs(str, fp);
 			fputc(' ', fp);
-			for (int m = 0; m < sizeof(q->site[m]); m++)
+			for (int m = 0; m < sizeof(q->seat[m]); m++)
 			{
-				for (int n = 0; n < sizeof(q->site); n++)
+				for (int n = 0; n < sizeof(q->seat); n++)
 				{
-					if (q->site[m][n]==0)	putc('0', fp);
+					if (q->seat[m][n]==0)	putc('0', fp);
 					else putc('1', fp);
 				}
 			}

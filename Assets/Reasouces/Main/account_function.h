@@ -1,5 +1,8 @@
 #include "struct.h"
+#include "Route_function.h"
+#include "transmform_function.h"
 #include "str_function.h"
+#include "Dest_function.h"
 
 Account* account_init()
 {
@@ -28,9 +31,9 @@ Account* account_create(Account* head)
 	int line,n=0,count;
 	Account* p, * add;
 	DestinationList* q;
-	string string, username, passport, origin, city, FlightNumber, date, time, SeatNumber,path;
+	string string, username, passport, ID, origin, city, FlightNumber, date, time, SeatNumber, path;
 	char2string(&path, "Cache.dat");
-	int money, seat;
+	int money, seat, OP_level;
 	char str[100];
 	char cache[100];
 	fopen_s(&fp,"Account","r");
@@ -38,16 +41,13 @@ Account* account_create(Account* head)
 	{
 		fgets(str, 5, fp);
 		line=char2int(str);
-		if (line == 0)
-		{
-			account_input();
-		}
 		for (int i = 0; i < line; i++)
 		{
+			count = 0;
 			fgets(str,100, fp);
 			for (int m = 0; m < 100; m++)
 			{
-				if (count == 11)	break;
+				if (count == 13)	break;
 				count = 0;
 				if ((str[m] != ' ') || (str[m] != '\n'))
 				{
@@ -72,67 +72,80 @@ Account* account_create(Account* head)
 						{
 							char2string(&string, cache);
 							str_copy(&passport, string);
-							head = account_add(head, username, passport);
-							add = account_find(head, username);
 							count++;
 							break;
 						}
 						case(2):
 						{
 							char2string(&string, cache);
-							str_copy(&origin, string);
+							str_copy(&ID, string);
 							count++;
 							break;
 						}
 						case(3):
 						{
-							char2string(&string, cache);
-							str_copy(&city, string);
+							OP_level = char2int(cache);
 							count++;
+							head = account_add(head, username, passport, ID, OP_level);
 							break;
 						}
 						case(4):
 						{
 							char2string(&string, cache);
-							str_copy(&FlightNumber, string);
+							str_copy(&origin, string);
 							count++;
 							break;
 						}
 						case(5):
 						{
 							char2string(&string, cache);
-							str_copy(&date, string);
+							str_copy(&city, string);
 							count++;
 							break;
 						}
 						case(6):
 						{
 							char2string(&string, cache);
-							str_copy(&time, string);
+							str_copy(&FlightNumber, string);
 							count++;
 							break;
 						}
 						case(7):
 						{
-							money = char2int(cache);
+							char2string(&string, cache);
+							str_copy(&date, string);
 							count++;
 							break;
 						}
 						case(8):
 						{
-							seat = char2int(cache);
+							char2string(&string, cache);
+							str_copy(&time, string);
 							count++;
 							break;
 						}
 						case(9):
+						{
+							money = char2int(cache);
+							count++;
+							break;
+						}
+						case(10):
+						{
+							seat = char2int(cache);
+							count++;
+							break;
+						}
+						case(11):
 						{
 							char2string(&string, cache);
 							str_copy(&SeatNumber, string);
 							count++;
 							break;
 						}
-						case(10):
+						case(12):
 						{
+							add = account_find(head, username);
 							Route_add_flight(add->Flight, origin, city, FlightNumber, date, time, money, seat, path);
 							q=Dest_find_FlightNumber(add->Flight->Destination, FlightNumber);
 							str_copy(&q->FlightNumber, FlightNumber);
@@ -145,46 +158,10 @@ Account* account_create(Account* head)
 					}
 				}
 			}
-			if (i == 0)
-			{
-				head = add;
-				p = head;
-			}
-			else
-			{
-				p->next = add;
-				p = add;
-			}
 		}
 	}
 	account_save(head);
 	return head;
-}
-void account_input()
-{
-	string username, passport;
-	int line;
-	char str[100];
-	FILE* fp;
-	fopen_s(&fp, "Account.dat", "w");
-	scanf_s("%d",&line);
-	int2char(line, str);
-	fputs(str, fp);
-	fputc('\n', fp);
-	for (int i = 0; i < line; i++)
-	{
-		str_refresh(&username);
-		str_refresh(&passport);
-		str_create(&username);
-		str_create(&passport);
-		encryp_passport(&passport);
-		string2char(str, &username);
-		fputs(str, fp);
-		fputc(' ', fp);
-		string2char(str, &passport);
-		fputs(str, fp);
-		fputc('\n', fp);
-	}
 }
 void account_FileInit()
 {
@@ -212,10 +189,12 @@ Account* account_find(Account* head, string username)
 		}
 		else p = p->next;
 	} while (p);
+	return head;
 }
-Account* account_add(Account* head, string username, string passport)
+Account* account_add(Account* head, string username, string passport,string ID,int OP_level)
 {
 	Account* p, * add;
+	add = account_init();
 	p = head;
 	if (!account_find(head, username))
 	{
@@ -227,6 +206,8 @@ Account* account_add(Account* head, string username, string passport)
 		add->No = p->No++;
 		str_copy(&add->username, username);
 		str_copy(&add->passport, passport);
+		str_copy(&add->ID, ID);
+		add->OP_level = OP_level;
 		if (head->username.length == 0)
 		{
 			head = add;
@@ -268,6 +249,12 @@ void account_save(Account* head)
 				fputs(str, fp);
 				fputc(' ', fp);
 				string2char(str, &p->passport);
+				fputs(str, fp);
+				fputc(' ', fp);
+				string2char(str, &p->ID);
+				fputs(str, fp);
+				fputc(' ', fp);
+				int2char(p->OP_level, str);
 				fputs(str, fp);
 				fputc(' ', fp);
 				string2char(str, &route->city);

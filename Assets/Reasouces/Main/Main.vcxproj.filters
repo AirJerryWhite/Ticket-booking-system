@@ -45,6 +45,9 @@
     <ClInclude Include="SeatList_Function.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="system.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp">
