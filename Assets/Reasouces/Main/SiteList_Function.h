@@ -36,6 +36,13 @@ SiteList* SiteList_add(SiteList* head, string date, string time, int x, int y)
 	{
 		add->site[i] = (bool*)malloc(sizeof(int) * y);
 	}
+	for (int m = 0; m < x; m++)
+	{
+		for (int n = 0; n < y; n++)
+		{
+			add->site[m][n] = 0;
+		}
+	}
 	if (head->date.length == 0)
 	{
 		head = add;

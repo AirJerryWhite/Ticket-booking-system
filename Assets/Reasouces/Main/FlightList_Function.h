@@ -25,7 +25,8 @@ void FlightList_refresh(FlightList* head)
 FlightList* FlightList_create(FlightList* head)
 {
 	FILE* fp;
-	int line,count,m;
+	string FLightNumber, date, time, SiteNumber;
+	int line, count, m, x, y;
 	char str[502],cache[502];
 	fopen_s(&fp, "FlightList.dat", "r");
 	fgets(str, 500, fp);
@@ -36,11 +37,12 @@ FlightList* FlightList_create(FlightList* head)
 	}
 	else
 	{
-		FlightList* add;
+		FlightList* p, * add;
 		for (int i = 0; i < line; i++)
 		{
 			count = 0;
 			fgets(str, 100, fp);
+			add = FlightList_init();
 			for (int n = 0; n < 100; n++)
 			{
 				if (count == 6)	break;
@@ -58,6 +60,49 @@ FlightList* FlightList_create(FlightList* head)
 					{
 						switch (count)
 						{
+						case(0):
+						{
+							char2string(&FLightNumber, str);
+							str_copy(&add->FlightNumber, FLightNumber);
+							count++;
+							break;
+						}
+						case(1):
+						{
+							char2string(&date, str);
+							count++;
+							break;
+						}
+						case(2):
+						{
+							char2string(&time, str);
+							count++;
+							break;
+						}
+						case(3):
+						{
+							char2string(&SiteNumber, str);
+							SiteNumber2int(SiteNumber, x, y);
+							SiteList_add(add->Site, date, time, x, y);
+							count++;
+							break;
+						}
+						case(4):
+						{
+							if (head->FlightNumber.length == 0)
+							{
+								head = add;
+								p = head;
+							}
+							else
+							{
+								do
+								{
+									p = p->next;
+								} while (p->next!=nullptr);
+								p->next = add;
+							}
+						}
 						default:
 							break;
 						}
@@ -66,6 +111,7 @@ FlightList* FlightList_create(FlightList* head)
 			}
 		}
 	}
+	return head;
 }
 FlightList* FlightList_add(FlightList* head, string FlightNumber, string date, string time, int x, int y)
 {
