@@ -3,7 +3,7 @@ stack stack_init()
 {
 	stack stack;
 	stack.head = 0;
-	memset(stack.stack, 0, 5);
+	memset(stack.stack, 0, 1000);
 	return stack;
 }
 void stack_push(stack* S,int data)

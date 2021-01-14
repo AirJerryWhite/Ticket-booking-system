@@ -5,7 +5,7 @@
 //=============================stack==============================//
 typedef struct stack
 {
-	int stack[5];
+	int stack[1000];
 	int head;
 }stack;
 stack stack_init();
@@ -57,6 +57,32 @@ DestinationList* Dest_remove(DestinationList* head, string FlightNumber);
 DestinationList* Dest_find_FlightNumber(DestinationList* head, string FlightNumber);
 DestinationList* Dest_find_City(DestinationList* head, string city);
 void Dest_display(DestinationList* head);
+//============================SiteList==============================//
+typedef struct SiteList
+{
+	int No;
+	string date;
+	string time;
+	bool** site;
+	SiteList* next;
+}SiteList;
+SiteList* SiteList_init();
+SiteList* SiteList_loadSite(SiteList* head, string date, string time, string Site);
+SiteList* SiteList_add(SiteList* head,string date,string time,int x, int y);
+void SiteList_refresh(SiteList* head);
+SiteList* SiteList_find(SiteList* head, string date, string time);
+SiteList* SiteList_bookingSite(SiteList* head, string date, string time, string SiteNumber, bool& success);
+SiteList* SiteList_edit(SiteList* head, string date, string new_date, string time, string new_time, string SiteNumber);
+SiteList* SiteList_remove(SiteList* head, string date, string time);
+//===========================FlightList=============================//
+typedef struct FlightList
+{
+	int No;
+	string FlightNumber;
+	SiteList* Site;
+	FlightList* next;
+}FlightList;
+FlightList* FlightList_init();
 //===========================Route=============================//
 typedef struct Route
 {
@@ -67,10 +93,10 @@ typedef struct Route
 }Route;
 Route* Route_init();
 void Route_refresh(Route* p);
-Route* Route_create(Route* head);
+Route* Route_create(Route* head, CityList* citylist);
 Route* Route_add_city(Route* head, string city);
 Route* Route_add_flight(Route* head, string origin, string city, string FlightNumber, string date, string time, int money, int seat);
-void Route_transfer(DestinationList* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time,string transfer_time, int money_origin2city,int money_origin2transfer,int money_transfer2city, int seat,int transfer_seat);
+void Route_transfer(Route* head, string origin, string transfer, string city, string FlightNumber, string date, string transfer_date, string time, string transfer_time, int money_origin2city, int money_origin2transfer, int money_transfer2city, int seat, int transfer_seat);
 Route* Route_find(Route* head, string city);
 void Route_save(Route* head);
 //===========================transform=============================//
@@ -78,4 +104,5 @@ void char2string(string* S, char* str);
 void string2char(char* str, string* S);	
 void int2char(int length, char* str);
 int char2int(char* str);
+void SiteNumber2int(string SiteNumber, int& x, int& y);
 #pragma once

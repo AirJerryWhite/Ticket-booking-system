@@ -141,7 +141,9 @@
   <ItemGroup>
     <ClInclude Include="CityList_function.h" />
     <ClInclude Include="Dest_function.h" />
+    <ClInclude Include="FlightList_Function.h" />
     <ClInclude Include="Route_function.h" />
+    <ClInclude Include="SiteList_Function.h" />
     <ClInclude Include="Stack_function.h" />
     <ClInclude Include="str_function.h" />
     <ClInclude Include="struct.h" />
